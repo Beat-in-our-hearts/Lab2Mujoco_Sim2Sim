@@ -10,6 +10,10 @@
 
 A repository designed for Issaclab for Sim2Sim using Mujoco(Python). A high-performance simulation library designed for transferring policies from IsaacLab to MuJoCo simulation environments. This codebase provides a unified interface for robot simulation, motor modeling, and motion tracking.
 
+## News & Updates
+- **2025/09**: Welcome to our [asset repository](https://github.com/Beat-in-our-hearts/mujoco_sim2sim_assets) for asset alignment for Isaaclab Locomotion, and welcome to provide robot assets aligned with URDF-MJCF-USD.
+- **2025/08**: We launched [TrackerLab](https://github.com/interval-package/trackerLab), a whole-body motion control warehouse that is currently under active development.
+
 
 ## Snapshots
 
