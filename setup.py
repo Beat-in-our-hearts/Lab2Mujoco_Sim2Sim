@@ -14,7 +14,10 @@ KEYWORDS = ["extension", "isaacLab"]
 
 # Minimum dependencies required prior to installation
 INSTALL_REQUIRES = [
-    # "psutil",  # NOTE: Add additional dependencies here
+    "numpy",
+    "mujoco",
+    "torch",
+    "rich"
 ]
 
 # Setup the package installation
