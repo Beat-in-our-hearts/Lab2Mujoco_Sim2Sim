@@ -18,7 +18,7 @@ A repository designed for Issaclab for Sim2Sim using Mujoco(Python). A high-perf
 
 | Go2 HandStand | G1 FlatVelocity |
 |----------|------------|
-| <video src="docs/videos/Go2_HandStand.mp4" width="320" controls></video>  | <video src="docs/videos/G1_29dof_Velocity.mp4" width="320" controls></video> |
+| <video src="https://github.com/user-attachments/assets/a0b639e1-4427-484f-afef-3f6135a1aaf8" width="320" controls></video>  | <video src="https://github.com/user-attachments/assets/9a688418-bb62-4107-964c-f230c095ace1" width="320" controls></video> |
 
 
 ## Features
