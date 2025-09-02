@@ -41,7 +41,7 @@ class Observations_Config:
 @dataclass
 class Motor_Config(): 
     motor_type: type = None
-    """Motor type: PID_Motor or DC_Motor"""
+    """Motor type: PIDMotor or DCMotor"""
     joint_names: list[str] = None
     """joint_names are the mujoco order actuator names, must same as mujoco joint defined."""
     
@@ -53,9 +53,9 @@ class Motor_Config():
     """PID control: D Gain"""
     
     saturation_effort: float | dict[str, float] = 0.0
-    """DC_Motor: Max output effort"""
+    """DCMotor: Max output effort"""
     velocity_limit: float | dict[str, float] = 0.0
-    """DC_Motor: Max output velocity"""
+    """DCMotor: Max output velocity"""
     friction: float | dict[str, float] = 0.0
     """not use"""
 

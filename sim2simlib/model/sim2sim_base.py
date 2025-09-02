@@ -78,7 +78,7 @@ class Sim2Sim(ABC):
     def _init_actuator_motor(self):
         motor_type = self._cfg.motor_cfg.motor_type
         self._cfg.motor_cfg.joint_names = self.actuators_joint_names
-        self.dc_motor = motor_type(self._cfg.motor_cfg)  
+        self.DCMotor = motor_type(self._cfg.motor_cfg)  
         
     def _obs_base_lin_vel(self) -> np.ndarray:
         return self.mj_data.qvel[self.base_link_id : self.base_link_id + 3]
@@ -164,7 +164,7 @@ class Sim2Sim(ABC):
         if self._cfg.debug:
             print(*args)
 
-class Sim2Sim_Base_Model(Sim2Sim):
+class Sim2SimBaseModel(Sim2Sim):
     
     def __init__(self, cfg: Sim2Sim_Config):
         super().__init__(cfg)  # Call parent constructor
@@ -270,7 +270,7 @@ class Sim2Sim_Base_Model(Sim2Sim):
         return joint_pos_action
 
     def apply_action(self, joint_pos_action: np.ndarray):
-        tau = self.dc_motor.compute(
+        tau = self.DCMotor.compute(
                 joint_pos=self.mj_data.qpos[self.base_link_id + 7:],
                 joint_vel=self.mj_data.qvel[self.base_link_id + 6:],
                 action=Actions(

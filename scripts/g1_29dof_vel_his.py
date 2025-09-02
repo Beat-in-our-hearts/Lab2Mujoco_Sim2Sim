@@ -1,7 +1,7 @@
 import numpy as np
 from sim2simlib.model.config import Sim2Sim_Config, Observations_Config, Actions_Config, Motor_Config
-from sim2simlib.model.sim2sim_base import Sim2Sim_Base_Model
-from sim2simlib.model.actuator_motor import DC_Motor, PID_Motor
+from sim2simlib.model.sim2sim_base import Sim2SimBaseModel
+from sim2simlib.model.actuator_motor import DCMotor, PIDMotor
 from sim2simlib import MUJOCO_ASSETS, CHECKPOINT_DIR
 
 
@@ -65,7 +65,7 @@ config = Sim2Sim_Config(
         scale=0.25
     ),
     motor_cfg=Motor_Config(
-        motor_type=PID_Motor,
+        motor_type=PIDMotor,
                 effort_limit={
             # "legs"
             ".*_hip_roll_joint": 300,
@@ -140,6 +140,6 @@ config = Sim2Sim_Config(
         },
 )
 
-mujoco_model = Sim2Sim_Base_Model(config)
+mujoco_model = Sim2SimBaseModel(config)
 
 mujoco_model.view_run()
