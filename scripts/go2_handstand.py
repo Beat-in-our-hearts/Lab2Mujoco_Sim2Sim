@@ -6,14 +6,17 @@ from sim2simlib import MUJOCO_ASSETS, CHECKPOINT_DIR
 
 config = Sim2Sim_Config(
     robot_name='Go2',
-    simulation_dt=0.005,
+    simulation_dt=0.002,
     slowdown_factor=1.0,
-    control_decimation=4,
-    xml_path=MUJOCO_ASSETS["unitree_go2"],
+    control_decimation=10,
+    xml_path=f"{MUJOCO_ASSETS['unitree_go2']}",
     policy_path=f"{CHECKPOINT_DIR}/go2_handstand_policy.pt",
-    policy_joint_names=['FL_hip_joint', 'FR_hip_joint', 'RL_hip_joint', 'RR_hip_joint', 
-                        'FL_thigh_joint', 'FR_thigh_joint', 'RL_thigh_joint', 'RR_thigh_joint', 
-                        'FL_calf_joint', 'FR_calf_joint', 'RL_calf_joint', 'RR_calf_joint'],
+    policy_joint_names=[ 
+            "FL_hip_joint", "FL_thigh_joint", "FL_calf_joint",
+            "FR_hip_joint", "FR_thigh_joint", "FR_calf_joint",
+            "RL_hip_joint", "RL_thigh_joint", "RL_calf_joint",
+            "RR_hip_joint", "RR_thigh_joint", "RR_calf_joint",   
+        ],
     observation_cfg=Observations_Config(
         base_observations_terms=['base_ang_vel', 
                                  'gravity_orientation', 
@@ -30,7 +33,7 @@ config = Sim2Sim_Config(
                 'last_action': 1.0
             },
         ),
-    cmd=[1,0,0],
+    cmd=[0.5,0,0],
     action_cfg=Actions_Config(
         action_clip=(-100.0, 100.0),
         scale=0.25

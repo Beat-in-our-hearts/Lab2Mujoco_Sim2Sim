@@ -1,8 +1,5 @@
-import os
 import numpy as np
 import torch
-import json
-from sim2simlib import SIM2SIMLIB_REPO_DIR
 
 
 @torch.jit.script
@@ -41,18 +38,3 @@ def get_gravity_orientation(quaternion: np.ndarray) -> np.ndarray:
     gravity_orientation[2] = 1 - 2 * (qw * qw + qz * qz)
 
     return gravity_orientation
-
-def get_mujoco_joint_names(robot_type: str) -> list:
-    """
-    Load the MuJoCo joint names for a specific robot type.
-
-    Args:
-        robot_type (str): The type of the robot.
-
-    Returns:
-        list: A list of MuJoCo joint names.
-    """
-    file_path = os.path.join(SIM2SIMLIB_REPO_DIR, "configs", f"{robot_type}.json")
-    with open(file_path, 'r') as f:
-        data = json.load(f)
-    return data.get("mujoco_joint_names")

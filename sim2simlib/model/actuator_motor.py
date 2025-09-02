@@ -7,11 +7,12 @@ The models implement position and velocity control with configurable parameters.
 Author: Lu Zuxing
 Data: 2025/8/22
 """
-
-import numpy as np
-import re
-from sim2simlib.model.config import Actions, Motor_Config
 import rich
+import re
+import numpy as np
+
+from sim2simlib.model.config import Actions, Motor_Config
+
 
 class PID_Motor:
     """

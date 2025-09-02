@@ -1,7 +1,7 @@
 
 from pathlib import Path
 
-SIM2SIMLIB_REPO_DIR = Path(__file__).resolve().parent
+SIM2SIMLIB_REPO_DIR = Path(__file__).resolve().parent.parent
 
 SIM2SIMLIB_ASSETS_DIR = SIM2SIMLIB_REPO_DIR / "assets"
 

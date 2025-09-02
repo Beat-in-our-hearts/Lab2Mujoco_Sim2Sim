@@ -7,10 +7,10 @@ from sim2simlib import MUJOCO_ASSETS, CHECKPOINT_DIR
 
 config = Sim2Sim_Config(
     robot_name='g1_29dof_vel_his',
-    simulation_dt=0.005,
+    simulation_dt=0.002,
     slowdown_factor=1.0,
-    control_decimation=4,
-    xml_path=MUJOCO_ASSETS["unitree_g1_23dof"],
+    control_decimation=10,
+    xml_path=f"{MUJOCO_ASSETS['unitree_g1_29dof']}",
     policy_path=f"{CHECKPOINT_DIR}/g1_29dof_vel_his_policy.pt",
     policy_joint_names=['left_hip_pitch_joint', 
                         'right_hip_pitch_joint', 

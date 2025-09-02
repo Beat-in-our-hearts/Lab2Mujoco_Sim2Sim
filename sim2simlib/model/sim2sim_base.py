@@ -6,21 +6,20 @@ Sim2Sim runner
 Author: Lu Zuxing
 Data: 2025/8/22
 """
-
-import os
+from abc import ABC, abstractmethod
 import time
-import mujoco
-import mujoco.viewer
+import re
+import rich
 from dataclasses import dataclass
 from glob import glob
 import numpy as np
 import torch
-import re
-from abc import ABC, abstractmethod
+import mujoco
+import mujoco.viewer
 
 from sim2simlib.utils.utils import get_gravity_orientation
 from sim2simlib.model.config import Sim2Sim_Config, Actions
-import rich
+
 
 class Sim2Sim(ABC):
     qpos_maps: list[int] = []
