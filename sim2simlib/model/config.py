@@ -16,26 +16,26 @@ import numpy as np
 
 @dataclass
 class Actions():
-    joint_pos: np.ndarray = None
-    joint_vel: np.ndarray = None
-    joint_efforts: np.ndarray = None
+    joint_pos: np.ndarray
+    joint_vel: np.ndarray
+    joint_efforts: np.ndarray
 
 @dataclass
 class Actions_Config:
-    scale: float
+    scale: float | dict[str, float]
     action_clip: tuple[float, float]
 
 @dataclass
 class Observations_Config:
     base_observations_terms: list[str]
     scale: dict[str, float]
-    using_base_obs_history: bool = False
-    base_obs_flatten: bool = True
+    using_base_obs_history: bool
+    base_obs_flatten: bool
     """
     using base_obs_flatten=True, terms flatten as N*dim(prev->current); 
     else base_obs_flatten=False, terms stack shape as (N, dim)
     """
-    base_obs_his_length: int = 1
+    base_obs_his_length: int
     
 
 @dataclass
@@ -90,8 +90,8 @@ class Sim2Sim_Config:
     motor_cfg: Motor_Config
     """actuators config"""
     
-    debug: bool = False
+    debug: bool
     """debug print key information"""
 
-    cmd: list[float] = None
+    cmd: list[float]
     """base sim2sim command for velocity task"""

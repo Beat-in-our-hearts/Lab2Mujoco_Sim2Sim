@@ -33,6 +33,7 @@ class Sim2Sim(ABC):
     base_obs_history: dict[str, list[np.ndarray]] = {}
     cmd: list[float]
     last_action: np.ndarray
+    _cfg: Sim2Sim_Config
 
     def __init__(self, cfg: Sim2Sim_Config):
         self._cfg = cfg
@@ -135,7 +136,7 @@ class Sim2Sim(ABC):
             mujoco.mj_step(self.mj_model, self.mj_data)
             
             counter += 1
-            time_until_next_step = self.mj_data.opt.timestep - (time.time() - step_start)
+            time_until_next_step = self.mj_model.opt.timestep - (time.time() - step_start)
             if time_until_next_step > 0:
                 time.sleep(time_until_next_step)
             
