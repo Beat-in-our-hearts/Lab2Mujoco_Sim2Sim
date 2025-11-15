@@ -336,40 +336,53 @@ class Sim2SimMimic(Sim2SimBaseModel):
                 if time_until_next_step > 0:
                     time.sleep(time_until_next_step)
                     
-    def view_fk(self):
+    def view_fk(self, headless: bool = False):
         cur_motion_id = 0
         counter = 0
         self.reset(motion_id=cur_motion_id)
         
-        with mujoco.viewer.launch_passive(self.mj_model, self.mj_data) as viewer:
-            while viewer.is_running():
-                step_start = time.time()
-                
-                joint_pos_target = self.dataloader.motion_buffer.joint_pos[self.global_time_steps].cpu().numpy().flatten()
-                joint_vel_target = self.dataloader.motion_buffer.joint_vel[self.global_time_steps].cpu().numpy().flatten()
-                
-                init_root_pos = self.dataloader.motion_buffer.body_pos_w[self.global_time_steps, 0].cpu().numpy().flatten()
-                init_quat = self.dataloader.motion_buffer.body_quat_w[self.global_time_steps, 0].cpu().numpy().flatten()
-                
-                self.mj_data.qpos[:3] = init_root_pos # + self.env_origins
-                self.mj_data.qpos[3:7] = init_quat
-                self.mj_data.qpos[self.qpos_maps] = joint_pos_target
-                self.mj_data.qvel[self.qvel_maps] = joint_vel_target
-                mujoco.mj_forward(self.mj_model, self.mj_data)
+        if headless:
+            pass
+        else:
+            with mujoco.viewer.launch_passive(self.mj_model, self.mj_data) as viewer:
+                # Configure tracking camera using viewer.cam
+                track_id = mujoco.mj_name2id(self.mj_model, mujoco.mjtObj.mjOBJ_BODY, self.anchor_body_name)
+                viewer.cam.type = mujoco.mjtCamera.mjCAMERA_TRACKING
+                viewer.cam.trackbodyid = track_id
+                viewer.cam.fixedcamid = -1
+                viewer.cam.distance = 4.0
+                viewer.cam.azimuth = 120.0
+                viewer.cam.elevation = -0.0
+                viewer.cam.lookat[:] = [0.0, 0.0, 0.0]
+        
+                while viewer.is_running():
+                    step_start = time.time()
                     
-                counter += 1
-                
-                viewer.sync()  
+                    joint_pos_target = self.dataloader.motion_buffer.joint_pos[self.global_time_steps].cpu().numpy().flatten()
+                    joint_vel_target = self.dataloader.motion_buffer.joint_vel[self.global_time_steps].cpu().numpy().flatten()
+                    
+                    init_root_pos = self.dataloader.motion_buffer.body_pos_w[self.global_time_steps, 0].cpu().numpy().flatten()
+                    init_quat = self.dataloader.motion_buffer.body_quat_w[self.global_time_steps, 0].cpu().numpy().flatten()
+                    
+                    self.mj_data.qpos[:3] = init_root_pos # + self.env_origins
+                    self.mj_data.qpos[3:7] = init_quat
+                    self.mj_data.qpos[self.qpos_maps] = joint_pos_target
+                    self.mj_data.qvel[self.qvel_maps] = joint_vel_target
+                    mujoco.mj_forward(self.mj_model, self.mj_data)
+                        
+                    counter += 1
+                    
+                    viewer.sync()  
 
-                # update time steps
-                if self.time_steps < self.dataloader.motion_lengths[self.motion_id] - 1:
-                    self.global_time_steps += 1
-                    self.time_steps += 1
-                else:
-                    cur_motion_id = (cur_motion_id + 1) % self.dataloader.num_motions
-                    self.reset(motion_id=cur_motion_id)
-                    rich.print(f"[Sim2SimMimic] Switching to motion id: {cur_motion_id}")
-                    
-                time_until_next_step = self.mj_model.opt.timestep*self._cfg.control_decimation - (time.time() - step_start)
-                if time_until_next_step > 0:
-                    time.sleep(time_until_next_step)
+                    # update time steps
+                    if self.time_steps < self.dataloader.motion_lengths[self.motion_id] - 1:
+                        self.global_time_steps += 1
+                        self.time_steps += 1
+                    else:
+                        cur_motion_id = (cur_motion_id + 1) % self.dataloader.num_motions
+                        self.reset(motion_id=cur_motion_id)
+                        rich.print(f"[Sim2SimMimic] Switching to motion id: {cur_motion_id}")
+                        
+                    time_until_next_step = self.mj_model.opt.timestep*self._cfg.control_decimation - (time.time() - step_start)
+                    if time_until_next_step > 0:
+                        time.sleep(time_until_next_step)
