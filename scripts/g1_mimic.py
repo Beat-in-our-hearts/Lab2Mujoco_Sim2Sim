@@ -242,4 +242,4 @@ config = Sim2SimMimic_Config(
 )
 
 mujoco_model = Sim2SimMimic(config)
-mujoco_model.view_fk()
+mujoco_model.view_run(11)

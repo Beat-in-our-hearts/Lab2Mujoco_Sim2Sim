@@ -269,8 +269,8 @@ class Sim2SimMimic(Sim2SimBaseModel):
         # lab order
         init_joint_pos = self.dataloader.motion_buffer.joint_pos[self.global_time_steps].cpu().numpy().flatten()
         init_joint_vel = self.dataloader.motion_buffer.joint_vel[self.global_time_steps].cpu().numpy().flatten()
-        init_root_pos = self.dataloader.motion_buffer.body_pos_w[self.global_time_steps, self.motion_anchor_body_index].cpu().numpy().flatten()
-        init_quat = self.dataloader.motion_buffer.body_quat_w[self.global_time_steps, self.motion_anchor_body_index].cpu().numpy().flatten()
+        init_root_pos = self.dataloader.motion_buffer.body_pos_w[self.global_time_steps, 0].cpu().numpy().flatten()
+        init_quat = self.dataloader.motion_buffer.body_quat_w[self.global_time_steps, 0].cpu().numpy().flatten()
         
         self.mj_data.qpos[:3] = init_root_pos # + self.env_origins
         self.mj_data.qpos[3:7] = init_quat
@@ -313,11 +313,11 @@ class Sim2SimMimic(Sim2SimBaseModel):
             if time_until_next_step > 0:
                 time.sleep(time_until_next_step)
                 
-    def view_run(self):
+    def view_run(self, motion_id: Optional[int] = None):
         counter = 0
         joint_pos_action = self.init_angles
         
-        self.reset(motion_id=0)
+        self.reset(motion_id=motion_id)
         
         with mujoco.viewer.launch_passive(self.mj_model, self.mj_data) as viewer:
             while viewer.is_running():
